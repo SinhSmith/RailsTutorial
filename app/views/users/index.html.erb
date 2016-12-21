@@ -1,0 +1,48 @@
+<p id="notice" class="text-success"><%= notice %></p>
+
+<div>
+  <h1>List Users</h1>
+  <%= link_to 'New User', new_user_path, :class => "btn btn-primary pull-right" %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= check_box_tag 'cbSelectAllUser' %></th>
+      <th>Title</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th style="width: 145px"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= check_box_tag 'cbSelectUser', user.id %></td>
+        <td><%= user.title %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to 'Edit', edit_user_path(user), :class=>"btn btn-primary" %>
+          <%= link_to 'Destroy', user, :class=>"btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Export Data", user_export_path(@users, format: "csv"), :class => "btn btn-primary" %>
+
+<script>
+  $("#cbSelectAllUser").change(function(){
+    var isCheck = false;
+    if ($(this).prop('checked'))
+      isCheck = true;
+    if (isCheck) {
+      $("input[name='cbSelectUser']").prop('checked', 'checked')
+    } else {
+      $("input[name='cbSelectUser']").removeAttr('checked')
+    }
+  });
+</script>
